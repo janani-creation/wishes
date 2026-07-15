@@ -93,6 +93,41 @@
       box-shadow: 0 10px 24px rgba(255, 93, 143, 0.25);
     }
 
+    .video-area {
+      margin: 14px 0 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .video-area.hidden {
+      display: none;
+    }
+
+    .video-frame {
+      width: min(100%, 360px);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 93, 143, 0.24);
+      box-shadow: 0 12px 24px rgba(139, 30, 63, 0.14);
+      background: #000;
+    }
+
+    .video-frame video {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #000;
+    }
+
+    .video-caption {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--deep);
+    }
+
     .result {
       margin-top: 16px;
       color: var(--deep);
@@ -141,6 +176,7 @@
     <div id="progress" class="progress">Question 1 of 5</div>
     <div id="question" class="question">Do you love me?</div>
     <div id="options" class="options"></div>
+    <div id="videoArea" class="video-area hidden"></div>
     <button id="nextBtn">Next</button>
     <div id="result" class="result"></div>
   </div>
@@ -151,17 +187,19 @@ const questions = [
   { text: "What do you love most about me?", options: ["My eyes", "My heart", "My silly side", "Everything"] },
   { text: "Which place would you love to visit with me?", options: ["Beach", "Un veedu", "En veedu", "Bharathi Park"] },
   { text: "What makes our bond special?", options: ["Laughing together", "Being there for each other", "Cute little moments", "All of these"] },
-  { text: "What should I do for you today?", options: ["Singing Video", "Flowers", "Kiss Video", "Dancing Video"] }
+  { text: "What should I do for you today?", options: ["Singing Video", "3 new pics", "Kiss Video", "Dancing Video"] }
 ];
 
 let currentQuestion = 0;
 let answers = [];
+let videoModeActive = false;
 
 const progress = document.getElementById("progress");
 const question = document.getElementById("question");
 const optionsContainer = document.getElementById("options");
 const nextBtn = document.getElementById("nextBtn");
 const result = document.getElementById("result");
+const videoArea = document.getElementById("videoArea");
 
 function renderQuestion() {
   const data = questions[currentQuestion];
@@ -170,6 +208,14 @@ function renderQuestion() {
   question.textContent = data.text;
 
   optionsContainer.innerHTML = "";
+  videoArea.innerHTML = "";
+  videoArea.classList.add("hidden");
+  videoModeActive = false;
+  nextBtn.style.display = "inline-block";
+  nextBtn.textContent =
+    currentQuestion === questions.length - 1 ? "Finish" : "Next";
+
+  result.textContent = "";
 
   data.options.forEach(option => {
     const label = document.createElement("label");
@@ -182,22 +228,68 @@ function renderQuestion() {
 
     optionsContainer.appendChild(label);
   });
+}
 
-  nextBtn.textContent =
-    currentQuestion === questions.length - 1 ? "Finish" : "Next";
+function showVideoResponse(choice) {
+  const src = choice === "Yes"
+    ? "https://www.w3schools.com/html/mov_bbb.mp4"
+    : "https://www.w3schools.com/html/movie.mp4";
 
-  result.textContent = "";
+  videoArea.innerHTML = "";
+  videoArea.classList.remove("hidden");
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "video-frame";
+  wrapper.innerHTML = `
+    <video controls autoplay playsinline>
+      <source src="${src}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  `;
+
+  const caption = document.createElement("p");
+  caption.className = "video-caption";
+  caption.textContent = choice === "Yes"
+    ? "Aww, my sweet heart, your yes made me smile 😍"
+    : "Even a playful no still feels cute to me 😘";
+
+  videoArea.appendChild(wrapper);
+  videoArea.appendChild(caption);
 }
 
 nextBtn.addEventListener("click", () => {
   const selected = document.querySelector('input[name="answer"]:checked');
 
+  if (currentQuestion === 0 && videoModeActive) {
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+      renderQuestion();
+    } else {
+      progress.textContent = "Finished";
+      question.textContent = "My sweet little love 💕";
+      optionsContainer.innerHTML = "";
+      videoArea.innerHTML = "";
+      videoArea.classList.add("hidden");
+      nextBtn.style.display = "none";
+    }
+    return;
+  }
+
   if (!selected) {
-    result.textContent = "First option ah choose pannu babzz💕";
+    result.textContent = "First option ah choose pannu da venna";
     return;
   }
 
   answers[currentQuestion] = selected.value;
+
+  if (currentQuestion === 0) {
+    videoModeActive = true;
+    showVideoResponse(selected.value);
+    nextBtn.textContent = "Next QN";
+    result.textContent = "Enjoy the little surprise below 💖";
+    return;
+  }
 
   currentQuestion++;
 
@@ -208,18 +300,6 @@ nextBtn.addEventListener("click", () => {
     question.textContent = "My sweet little love 💕";
     optionsContainer.innerHTML = "";
     nextBtn.style.display = "none";
-
-    // result.innerHTML = `
-    //   <div class="romantic-card">
-    //     <div class="emoji-row">💘🌙💗</div>
-    //     <p class="heart-line">You are my favorite smile, my safest place, and my sweetest forever.</p>
-    //     <p class="heart-line">Every little moment with you feels like a dream wrapped in moonlight and love.</p>
-    //     <p class="heart-line">I still love the way your laugh makes my heart feel lighter, warmer, and happier.</p>
-    //     <p class="heart-line">No matter how many days pass, my heart will always choose you, again and again.</p>
-    //     <p class="heart-line">You are the sweetest part of my world, my lovely kutty couple, my heart’s home.</p>
-    //     <div class="mini-hearts">💖💖💖💖💖</div>
-    //   </div>
-    // `;
   }
 });
 
