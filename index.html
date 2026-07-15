@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, Love</title>
+  <style>
+    :root {
+      --bg: #fff5f8;
+      --pink: #ff5d8f;
+      --rose: #ff8fab;
+      --deep: #8b1e3f;
+      --text: #4a1d2f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--bg), #ffe7ef);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hearts, .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 2rem;
+      animation: float 4s ease-in-out infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      50% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+    }
+
+    .card {
+      width: min(92vw, 560px);
+      background: rgba(255, 255, 255, 0.86);
+      border: 2px solid rgba(255, 93, 143, 0.2);
+      box-shadow: 0 20px 45px rgba(139, 30, 63, 0.15);
+      border-radius: 24px;
+      padding: 30px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      z-index: 2;
+      transform: translateY(20px);
+      animation: popIn 0.8s ease forwards;
+    }
+
+    @keyframes popIn {
+      to { transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin: 0 0 12px;
+      color: var(--deep);
+    }
+
+    p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin: 10px 0;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--pink), var(--rose));
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(255, 93, 143, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(255, 93, 143, 0.3);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .kiss-input {
+      padding: 10px 14px;
+      border: 1px solid rgba(255, 93, 143, 0.3);
+      border-radius: 999px;
+      outline: none;
+      min-width: 180px;
+      font-size: 0.95rem;
+    }
+
+    .message {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255, 93, 143, 0.12), rgba(255, 143, 171, 0.18));
+      color: var(--deep);
+      font-weight: 600;
+    }
+
+    .tiny { font-size: 0.94rem; opacity: 0.85; }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+  <div class="confetti" id="confetti"></div>
+
+  <div class="card">
+    <h1>Happy Birthday Thanga Pulla 💖</h1>
+    <p>I love you babzz umahhh </p>
+    <p>This is your 21'th birthday. i wish you should face more than 100 birthday babzz </p>
+    <p>May this year bring you closer to your dreams and fill your life with endless happyness.</p>
+    
+
+    <button onclick="revealMessage()">Open</button>
+
+    <div id="kissMessage" class="message hidden"></div>
+
+    <div id="messageBox" class="message hidden">
+      <p>You are my favorite person, my safe place, and my biggest joy.</p>
+      <p>I hope your birthday is full of laughter, love, and all the happiness you deserve.</p>
+      <p class="tiny">With all my love, your favorite person</p>
+    </div>
+  </div>
+
+  <script>
+    function kiss() {
+      const input = document.getElementById("kissInput");
+      const message = document.getElementById("kissMessage");
+      const emoji = (input.value || "😘").trim() || "😘";
+
+      message.innerHTML = `<p>Thank you baby ${emoji} ${emoji}</p><p>I love you so much 💖</p>`;
+      message.classList.remove("hidden");
+      message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      launchConfetti();
+      createFloatingHearts();
+      input.value = "";
+    }
+
+    function revealMessage() {
+      window.location.href = "surprise.html";
+    }
+
+    function launchConfetti() {
+      const confettiContainer = document.getElementById("confetti");
+      for (let i = 0; i < 40; i++) {
+        const piece = document.createElement("div");
+        piece.style.position = "absolute";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.top = "-10px";
+        piece.style.width = (Math.random() * 8 + 4) + "px";
+        piece.style.height = (Math.random() * 16 + 8) + "px";
+        piece.style.background = ["#ff5d8f", "#ff8fab", "#ffd166", "#ff6b6b"][Math.floor(Math.random() * 4)];
+        piece.style.opacity = "0.9";
+        piece.style.transform = "rotate(" + Math.random() * 360 + "deg)";
+        piece.style.animation = `fall ${Math.random() * 1.2 + 1.2}s linear forwards`;
+        confettiContainer.appendChild(piece);
+        setTimeout(() => piece.remove(), 1800);
+      }
+
+      const style = document.createElement("style");
+      style.innerHTML = `
+        @keyframes fall {
+          to {
+            transform: translateY(110vh) rotate(720deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+      setTimeout(() => style.remove(), 2000);
+    }
+
+    function createFloatingHearts() {
+      const hearts = document.getElementById("hearts");
+      for (let i = 0; i < 12; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "💗";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = Math.random() * 100 + "vh";
+        heart.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        hearts.appendChild(heart);
+        setTimeout(() => heart.remove(), 3000);
+      }
+    }
+  </script>
+</body>
+</html>
