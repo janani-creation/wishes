@@ -1,332 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday Sunil</title>
-  <style>
-    :root {
-      --bg: #fff5f8;
-      --pink: #ff5d8f;
-      --rose: #ff8fab;
-      --deep: #8b1e3f;
-      --text: #4a1d2f;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Quiz ❤️</title>
 
-    * { box-sizing: border-box; }
+<style>
+:root {
+  --bg: #fff5f8;
+  --pink: #ff5d8f;
+  --rose: #ff8fab;
+  --deep: #8b1e3f;
+  --text: #4a1d2f;
+}
 
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, var(--bg), #ffe7ef);
-      color: var(--text);
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-    }
+*{
+  box-sizing:border-box;
+}
 
-    .quiz-card {
-      width: min(92vw, 620px);
-      background: rgba(255, 255, 255, 0.9);
-      border: 2px solid rgba(255, 93, 143, 0.2);
-      box-shadow: 0 20px 45px rgba(139, 30, 63, 0.16);
-      border-radius: 24px;
-      padding: 24px;
-      text-align: center;
-    }
+body{
+  margin:0;
+  font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
+  background:linear-gradient(135deg,var(--bg),#ffe7ef);
+  display:grid;
+  place-items:center;
+  min-height:100vh;
+  padding:20px;
+}
 
-    h1 {
-      margin: 0 0 8px;
-      color: var(--deep);
-      font-size: clamp(1.7rem, 4vw, 2.4rem);
-    }
+.quiz-card{
+  width:min(92vw,620px);
+  background:white;
+  border-radius:25px;
+  padding:25px;
+  text-align:center;
+  box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
 
-    .subtitle {
-      margin: 0 0 18px;
-      color: var(--text);
-      opacity: 0.9;
-    }
+h1{
+  color:var(--deep);
+  margin-bottom:10px;
+}
 
-    .progress {
-      margin-bottom: 16px;
-      font-weight: 700;
-      color: var(--pink);
-    }
+.subtitle{
+  color:#555;
+  margin-bottom:20px;
+}
 
-    .question {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--deep);
-    }
+.progress{
+  color:var(--pink);
+  font-weight:bold;
+  margin-bottom:15px;
+}
 
-    .options {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 16px;
-      text-align: left;
-    }
+.question{
+  font-size:22px;
+  color:var(--deep);
+  margin-bottom:20px;
+  font-weight:bold;
+}
 
-    .option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 14px;
-      border: 1px solid rgba(255, 93, 143, 0.22);
-      border-radius: 999px;
-      background: #fff;
-      cursor: pointer;
-    }
+.options{
+  display:grid;
+  gap:12px;
+  margin-bottom:20px;
+}
 
-    .option input { accent-color: var(--pink); }
+.option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px;
+  border:1px solid #ffd1df;
+  border-radius:50px;
+  cursor:pointer;
+  background:#fff;
+  transition:.3s;
+}
 
-    button {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--pink), var(--rose));
-      color: white;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(255, 93, 143, 0.25);
-    }
+.option:hover{
+  background:#fff2f6;
+}
 
-    .video-area {
-      margin: 14px 0 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
+button{
+  padding:12px 28px;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(135deg,var(--pink),var(--rose));
+  color:white;
+  font-size:17px;
+  cursor:pointer;
+}
 
-    .video-area.hidden {
-      display: none;
-    }
+.result{
+  margin-top:20px;
+  font-size:18px;
+  color:var(--deep);
+  font-weight:bold;
+}
 
-    .video-frame {
-      width: min(100%, 360px);
-      border-radius: 18px;
-      overflow: hidden;
-      border: 2px solid rgba(255, 93, 143, 0.24);
-      box-shadow: 0 12px 24px rgba(139, 30, 63, 0.14);
-      background: #000;
-    }
+.romantic-card{
+  background:#fff5f8;
+  border-radius:20px;
+  padding:20px;
+  animation:pop .5s;
+}
 
-    .video-frame video {
-      display: block;
-      width: 100%;
-      height: auto;
-      background: #000;
-    }
+.emoji-row{
+  font-size:35px;
+}
 
-    .video-caption {
-      margin: 0;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--deep);
-    }
+.mini-hearts{
+  font-size:22px;
+}
 
-    .result {
-      margin-top: 16px;
-      color: var(--deep);
-      font-weight: 600;
-      line-height: 1.6;
-    }
+@keyframes pop{
+  from{
+    transform:scale(.8);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+</style>
 
-    .romantic-card {
-      padding: 20px;
-      border-radius: 24px;
-      background: linear-gradient(135deg, #fff7fb, #ffe9f0);
-      box-shadow: 0 16px 40px rgba(139, 30, 63, 0.14);
-      border: 1px solid rgba(255, 93, 143, 0.18);
-    }
-
-    .emoji-row {
-      font-size: 2rem;
-      margin: 10px 0 6px;
-      letter-spacing: 0.3rem;
-      animation: sway 2.5s ease-in-out infinite;
-    }
-
-    @keyframes sway {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
-
-    .heart-line {
-      font-size: 1.05rem;
-      margin: 8px 0;
-      color: var(--deep);
-    }
-
-    .mini-hearts {
-      font-size: 1.2rem;
-      color: var(--pink);
-      margin-top: 8px;
-      letter-spacing: 0.2rem;
-    }
-  </style>
 </head>
 <body>
-  <div class="quiz-card">
-    <h1>This questions for you babzz</h1>
-    <p class="subtitle">Unmaya Pathil Sollu💖</p>
-    <div id="progress" class="progress">Question 1 of 5</div>
-    <div id="question" class="question">Do you love me?</div>
-    <div id="options" class="options"></div>
-    <div id="videoArea" class="video-area hidden"></div>
-    <button id="nextBtn">Next</button>
-    <div id="result" class="result"></div>
-  </div>
 
- <script>
+<div class="quiz-card">
+
+<h1>This Questions For You Babzz ❤️</h1>
+<p class="subtitle">Unmaya Pathil Sollu 💖</p>
+
+<div class="progress" id="progress"></div>
+
+<div class="question" id="question"></div>
+
+<div class="options" id="options"></div>
+
+<button id="nextBtn">Next</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
 const questions = [
-  { text: "Do you love me?", options: ["Yes", "No"] },
-  { text: "What do you love most about me?", options: ["My eyes", "My heart", "My silly side", "Everything"] },
-  { text: "Which place would you love to visit with me?", options: ["Beach", "Un veedu", "En veedu", "Bharathi Park"] },
-  { text: "What makes our bond special?", options: ["Laughing together", "Being there for each other", "Cute little moments", "All of these"] },
-  { text: "What should I do for you today?", options: ["Singing Video", "3 new pics", "Kiss Video", "Dancing Video"] }
+
+{
+text:"Do you love me?",
+options:["Yes ❤️","No 💔"]
+},
+
+{
+text:"What do you love most about me?",
+options:[
+"My Eyes 👀",
+"My Heart ❤️",
+"My Silly Side 😂",
+"Everything 🥰"
+]
+},
+
+{
+text:"Which place would you love to visit with me?",
+options:[
+"Beach 🌊",
+"Un Veedu 🏠",
+"En Veedu 🏡",
+"Bharathi Park 🌳"
+]
+},
+
+{
+text:"What makes our bond special?",
+options:[
+"Laughing Together 😂",
+"Being There For Each Other ❤️",
+"Cute Little Moments 🥹",
+"All Of These 💖"
+]
+},
+
+{
+text:"What should I do for you today?",
+options:[
+"Singing Video 🎤",
+"3 New Pics 📸",
+"Kiss Video 😘",
+"Dancing Video 💃"
+]
+}
+
 ];
 
-let currentQuestion = 0;
-let answers = [];
-let videoModeActive = false;
+let currentQuestion=0;
+let answers=[];
 
-const progress = document.getElementById("progress");
-const question = document.getElementById("question");
-const optionsContainer = document.getElementById("options");
-const nextBtn = document.getElementById("nextBtn");
-const result = document.getElementById("result");
-const videoArea = document.getElementById("videoArea");
+const progress=document.getElementById("progress");
+const question=document.getElementById("question");
+const options=document.getElementById("options");
+const nextBtn=document.getElementById("nextBtn");
+const result=document.getElementById("result");
 
-function renderQuestion() {
-  const data = questions[currentQuestion];
+function renderQuestion(){
 
-  progress.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
-  question.textContent = data.text;
+progress.innerHTML=`Question ${currentQuestion+1} of ${questions.length}`;
 
-  optionsContainer.innerHTML = "";
-  videoArea.innerHTML = "";
-  videoArea.classList.add("hidden");
-  videoModeActive = false;
-  nextBtn.style.display = "inline-block";
-  nextBtn.textContent =
-    currentQuestion === questions.length - 1 ? "Finish" : "Next";
+question.innerHTML=questions[currentQuestion].text;
 
-  result.textContent = "";
+options.innerHTML="";
 
-  data.options.forEach(option => {
-    const label = document.createElement("label");
-    label.className = "option";
+result.innerHTML="";
 
-    label.innerHTML = `
-      <input type="radio" name="answer" value="${option}">
-      <span>${option}</span>
-    `;
+questions[currentQuestion].options.forEach(option=>{
 
-    optionsContainer.appendChild(label);
-  });
+const label=document.createElement("label");
+
+label.className="option";
+
+label.innerHTML=`
+<input type="radio" name="answer" value="${option}">
+<span>${option}</span>
+`;
+
+options.appendChild(label);
+
+});
+
+nextBtn.innerHTML=currentQuestion==questions.length-1?"Finish":"Next";
+
 }
 
-async function getBlobURL(src) {
-  try {
-    const res = await fetch(src, { mode: 'cors' });
-    if (!res.ok) throw new Error('Failed to fetch');
-    const blob = await res.blob();
-    return URL.createObjectURL(blob);
-  } catch (e) {
-    return src; // fallback to original URL if fetch fails
-  }
+nextBtn.addEventListener("click",()=>{
+
+const selected=document.querySelector("input[name='answer']:checked");
+
+if(!selected){
+
+result.innerHTML="🥺 First option ah choose pannu da!";
+return;
+
 }
 
-async function showVideoResponse(choice) {
-  const src = choice === "Yes"
-    ? "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-    : "https://www.w3schools.com/html/mov_bbb.mp4";
+answers[currentQuestion]=selected.value;
 
-  videoArea.innerHTML = "";
-  videoArea.classList.remove("hidden");
+if(currentQuestion==0){
 
-  const wrapper = document.createElement("div");
-  wrapper.className = "video-frame";
+if(selected.value.includes("Yes")){
 
-  const video = document.createElement('video');
-  video.setAttribute('controls', '');
-  video.setAttribute('playsinline', '');
-  video.setAttribute('autoplay', '');
-  video.setAttribute('preload', 'metadata');
-  video.setAttribute('controlsList', 'nodownload noremoteplayback');
-  video.setAttribute('disablePictureInPicture', '');
-  video.style.display = 'block';
+result.innerHTML="🥹❤️ Awwww... I Love You Too Daaaa Babzz 😘💕";
 
-  // Prevent context menu on the video to make saving harder
-  video.addEventListener('contextmenu', e => e.preventDefault());
+}
+else{
 
-  // Try to fetch video as blob and use an object URL to avoid exposing direct URL in markup
-  const blobUrl = await getBlobURL(src);
-  video.src = blobUrl;
+result.innerHTML="😒 No ah? Seri... Poi thirumba YES nu select pannitu va 😂❤️";
 
-  wrapper.appendChild(video);
-
-  const caption = document.createElement("p");
-  caption.className = "video-caption";
-  caption.textContent = choice === "Yes"
-    ? "i love you too dahh😍😘"
-    : "no vahh po poi yes nu sollu po😡";
-
-  videoArea.appendChild(wrapper);
-  videoArea.appendChild(caption);
 }
 
-nextBtn.addEventListener("click", () => {
-  const selected = document.querySelector('input[name="answer"]:checked');
+currentQuestion++;
 
-  if (currentQuestion === 0 && videoModeActive) {
-    currentQuestion++;
+setTimeout(()=>{
 
-    if (currentQuestion < questions.length) {
-      renderQuestion();
-    } else {
-      progress.textContent = "Finished";
-      question.textContent = "My sweet little love 💕";
-      optionsContainer.innerHTML = "";
-      videoArea.innerHTML = "";
-      videoArea.classList.add("hidden");
-      nextBtn.style.display = "none";
-    }
-    return;
-  }
+renderQuestion();
 
-  if (!selected) {
-    result.textContent = "First option ah choose pannu da venna";
-    return;
-  }
+},2000);
 
-  answers[currentQuestion] = selected.value;
+return;
 
-  if (currentQuestion === 0) {
-    videoModeActive = true;
-    showVideoResponse(selected.value);
-    nextBtn.textContent = "Next";
-  
-    return;
-  }
+}
 
-  currentQuestion++;
+currentQuestion++;
 
-  if (currentQuestion < questions.length) {
-    renderQuestion();
-  } else {
-    progress.textContent = "Finished";
-    question.textContent = "My sweet little love 💕";
-    optionsContainer.innerHTML = "";
-    nextBtn.style.display = "none";
-  }
+if(currentQuestion<questions.length){
+
+renderQuestion();
+
+}
+else{
+
+progress.innerHTML="Finished ✅";
+
+question.innerHTML="💖 My Sweet Little Love 💖";
+
+options.innerHTML="";
+
+nextBtn.style.display="none";
+
+result.innerHTML=`
+<div class="romantic-card">
+
+<div class="emoji-row">
+🥰 ❤️ 🌹 💕
+</div>
+
+<h2>Thank You Babzz 😘</h2>
+
+<p>
+Thanks for answering all my questions. ❤️<br><br>
+
+No matter what...<br>
+
+I will always love you forever. 🥹💖<br><br>
+
+Happy Birthday Once Again My Love 🎂🎉❤️
+</p>
+
+<div class="mini-hearts">
+❤️ 💕 ❤️ 💕 ❤️
+</div>
+
+</div>
+`;
+
+}
+
 });
 
 renderQuestion();
+
 </script>
+
 </body>
 </html>
