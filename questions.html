@@ -230,7 +230,18 @@ function renderQuestion() {
   });
 }
 
-function showVideoResponse(choice) {
+async function getBlobURL(src) {
+  try {
+    const res = await fetch(src, { mode: 'cors' });
+    if (!res.ok) throw new Error('Failed to fetch');
+    const blob = await res.blob();
+    return URL.createObjectURL(blob);
+  } catch (e) {
+    return src; // fallback to original URL if fetch fails
+  }
+}
+
+async function showVideoResponse(choice) {
   const src = choice === "Yes"
     ? "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
     : "https://www.w3schools.com/html/mov_bbb.mp4";
@@ -240,12 +251,24 @@ function showVideoResponse(choice) {
 
   const wrapper = document.createElement("div");
   wrapper.className = "video-frame";
-  wrapper.innerHTML = `
-    <video controls controlsList="nodownload" autoplay playsinline preload="metadata">
-      <source src="${src}" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  `;
+
+  const video = document.createElement('video');
+  video.setAttribute('controls', '');
+  video.setAttribute('playsinline', '');
+  video.setAttribute('autoplay', '');
+  video.setAttribute('preload', 'metadata');
+  video.setAttribute('controlsList', 'nodownload noremoteplayback');
+  video.setAttribute('disablePictureInPicture', '');
+  video.style.display = 'block';
+
+  // Prevent context menu on the video to make saving harder
+  video.addEventListener('contextmenu', e => e.preventDefault());
+
+  // Try to fetch video as blob and use an object URL to avoid exposing direct URL in markup
+  const blobUrl = await getBlobURL(src);
+  video.src = blobUrl;
+
+  wrapper.appendChild(video);
 
   const caption = document.createElement("p");
   caption.className = "video-caption";
