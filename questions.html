@@ -235,90 +235,92 @@ nextBtn.innerHTML=currentQuestion==questions.length-1?"Finish":"Next";
 
 }
 
-nextBtn.addEventListener("click",()=>{
+nextBtn.addEventListener("click", () => {
 
-const selected=document.querySelector("input[name='answer']:checked");
+  const selected = document.querySelector("input[name='answer']:checked");
 
-if(!selected){
+  if (!selected) {
+    result.innerHTML = "🥺 First option ah choose pannu da!";
+    return;
+  }
 
-result.innerHTML="🥺 First option ah choose pannu da!";
-return;
+  answers[currentQuestion] = selected.value;
 
-}
+  // Messages for every option
+  const messages = [
 
-answers[currentQuestion]=selected.value;
+    // Question 1
+    {
+      "Yes ❤️": "🥹❤️ I Love You Too Daaaa Babzz 😘💕",
+      "No 💔": "😒 No ah? Poi thirumba YES nu select pannitu va 😂❤️"
+    },
 
-if(currentQuestion==0){
+    // Question 2
+    {
+      "My Eyes 👀": "🙈 Awww... En eyes ah romba pidikuma? ❤️",
+      "My Heart ❤️": "🥹 Nee romba sweet da... Love you! 💖",
+      "My Silly Side 😂": "😂 Enna kalaikuradha than unaku pudikuma?",
+      "Everything 🥰": "🥺❤️ Awwww... Nee than en ulagam!"
+    },
 
-if(selected.value.includes("Yes")){
+    // Question 3
+    {
+      "Beach 🌊": "🌊 Sunset paathu rendu perum walk polaam ❤️",
+      "Un Veedu 🏠": "🤭 Un veetuku vandha enna treat? 😂",
+      "En Veedu 🏡": "🥰 Amma sapadu ready pannirupanga ❤️",
+      "Bharathi Park 🌳": "🌳 Anga ukkanthu neraya pesalaam 💕"
+    },
 
-result.innerHTML="🥹❤️ Awwww... I Love You Too Daaaa Babzz 😘💕";
+    // Question 4
+    {
+      "Laughing Together 😂": "😂 Un sirippu dhan en happiness ❤️",
+      "Being There For Each Other ❤️": "🥹 Always irupom together 💖",
+      "Cute Little Moments 🥰": "🥺 Chinna chinna memories dhan life ❤️",
+      "All Of These 💖": "😍 Correct answer da Babzz!"
+    },
 
-}
-else{
+    // Question 5
+    {
+      "Singing Video 🎤": "🎤 Okay Babzz... Song ready pannuren ❤️",
+      "3 New Pics 📸": "📸 Seri... Super pics anupuren 😘",
+      "Kiss Video 😘": "🙈 Ayyo... Romba naughty da nee 😂❤️",
+      "Dancing Video 💃": "💃 Dance practice start panniten 😂💕"
+    }
 
-result.innerHTML="😒 No ah? Seri... Poi thirumba YES nu select pannitu va 😂❤️";
+  ];
 
-}
+  result.innerHTML = messages[currentQuestion][selected.value];
 
-currentQuestion++;
+  currentQuestion++;
 
-setTimeout(()=>{
+  setTimeout(() => {
 
-renderQuestion();
+    if (currentQuestion < questions.length) {
+      renderQuestion();
+    } else {
 
-},2000);
+      progress.innerHTML = "Finished ❤️";
+      question.innerHTML = "💖 My Sweet Little Love 💖";
+      options.innerHTML = "";
+      nextBtn.style.display = "none";
 
-return;
+      result.innerHTML = `
+      <div class="romantic-card">
+        <div class="emoji-row">🥰 ❤️ 🌹 💕</div>
+        <h2>Thank You Babzz 😘</h2>
+        <p>
+        Thanks for answering all my questions ❤️<br><br>
+        I Love You Forever 💖
+        </p>
+        <div class="mini-hearts">❤️ 💕 ❤️ 💕 ❤️</div>
+      </div>`;
+    }
 
-}
-
-currentQuestion++;
-
-if(currentQuestion<questions.length){
-
-renderQuestion();
-
-}
-else{
-
-progress.innerHTML="Finished ✅";
-
-question.innerHTML="💖 My Sweet Little Love 💖";
-
-options.innerHTML="";
-
-nextBtn.style.display="none";
-
-result.innerHTML=`
-<div class="romantic-card">
-
-<div class="emoji-row">
-🥰 ❤️ 🌹 💕
-</div>
-
-<h2>Thank You Babzz 😘</h2>
-
-<p>
-Thanks for answering all my questions. ❤️<br><br>
-
-No matter what...<br>
-
-I will always love you forever. 🥹💖<br><br>
-
-Happy Birthday Once Again My Love 🎂🎉❤️
-</p>
-
-<div class="mini-hearts">
-❤️ 💕 ❤️ 💕 ❤️
-</div>
-
-</div>
-`;
-
-}
+  }, 2000);
 
 });
+
+
 
 renderQuestion();
 
